@@ -10,6 +10,7 @@ module Mongoid::Lockable
 
     # add callback to save tags index
     before_save do
+      self.reload
       self._lock_version=0 if self._lock_version.nil?
       self._lock_version += 1
       DaemonKit.logger.info("before save  the version is #{self._lock_version}")
