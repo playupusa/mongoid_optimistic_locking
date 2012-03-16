@@ -37,7 +37,7 @@ module Mongoid::Lockable
     end
     result =  Mongoid.database.command({getlasterror: 1})
     DaemonKit.logger.info("result  #{result}")
-    unless result["updatedExisting"]
+    unless result["err"] != nil
       self._lock_version -= 1
       raise Mongoid::Errors::StaleDocument.new(self.class, self)
     end
