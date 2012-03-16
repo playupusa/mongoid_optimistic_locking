@@ -12,6 +12,7 @@ module Mongoid::Lockable
     before_save do
       self._lock_version=0 if self._lock_version.nil?
       self._lock_version += 1
+      DaemonKit.logger.info("before save  the version is #{self._lock_version}")
     end
   end
 
@@ -24,6 +25,7 @@ module Mongoid::Lockable
       key = '_lock_version'
     end
     s[key] = _lock_version==1 ? nil : _lock_version-1
+    DaemonKit.logger.info "the value of s is #{s}"
     s
   end
 
