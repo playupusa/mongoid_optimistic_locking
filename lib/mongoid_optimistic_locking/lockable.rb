@@ -36,6 +36,7 @@ module Mongoid::Lockable
       alias :atomic_selector :atomic_selector_old
     end
     result =  Mongoid.database.command({getlasterror: 1})
+    DaemonKit.logger.info("result  #{result}")
     unless result["updatedExisting"]
       self._lock_version -= 1
       raise Mongoid::Errors::StaleDocument.new(self.class, self)
